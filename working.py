@@ -89,4 +89,3 @@ with open('users_data.json', 'w') as outfile:
 with open('users_data.json', 'r') as outfile:
     print(outfile.readlines())
  """
-

@@ -40,6 +40,20 @@ class DataBase:
         if record is not None and record[2] == password:
             return record[3]
         return None
+    
+    def add_user(self, user_data):
+        if self.get_user(user_data['username']) is None:
+            with self.connection as connection:
+                cursor = connection.cursor()
+                query = """INSERT INTO users (name, password, role) VALUES(%s, %s, %s);"""
+                cursor.execute(query, (user_data['username'], user_data['password'], user_data['role']))
+                print(cursor.statusmessage)
+                return True
+
+        return None
+
+
+
 
 
 

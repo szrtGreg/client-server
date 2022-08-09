@@ -1,4 +1,5 @@
 from datetime import datetime
+from turtle import right
 from users import User
 
 class ServerManagement():
@@ -27,7 +28,8 @@ class ServerManagement():
             'stop' : self.stop_server,
             'help' : self.show_help,
             'uptime': self.show_server_uptime,
-            'show': self.show_all_users
+            'show': self.show_all_users,
+            'create': self.create_new_user
         }
 
     def server_uptime(self):
@@ -51,9 +53,28 @@ class ServerManagement():
         return None
 
 
-        
+    def create_user_object(slef, data):
+        userdata = data.split(':')
+        if len(userdata) == 3 and userdata[2].upper() in ["USER", "ADMIN"]:
+            return User(userdata[0], userdata[1], userdata[2])
+        return None
+
 
 ### HANDLERS
+
+    def create_new_user(self, conn, data_base, authenticated_user):
+        self.send_msg(conn, "username:password:rights")
+        recv = self.recv_msg(conn)
+        user = self.create_user_object(recv)
+
+        if user:
+            if data_base.add_user(user.get_user_data()):
+                 return user.username, user.password
+            return 'Error', f'{user.username} already exists'
+        else:
+            return 'Error', 'Invalid data'
+        
+
 
     def show_all_users(self, conn, data_base):
         users = data_base.show_users()
@@ -63,12 +84,12 @@ class ServerManagement():
     def show_server_uptime(self, conn, data_base):
         return "uptime", self.server_uptime()
 
-    def show_server_info(self, conn, data_base):
+    def show_server_info(self, *args):
         return 'info', f'{self.version}'
 
-    def show_help(self, conn, data_base):
+    def show_help(self, *args):
         return 'help', self.commands
 
-    def stop_server(self, conn, data_base):
+    def stop_server(self, conn, *args):
         self.send_msg(conn, 'Connection closed')
         print('Connection closed')

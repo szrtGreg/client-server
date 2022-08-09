@@ -38,7 +38,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             key = server_management.recv_msg(conn)
 
             try:
-                handler = server_management.handlers[key](conn, data_base)
+                handler = server_management.handlers[key](conn, data_base, authenticated_user)
             except KeyError:
                 server_management.send_msg(conn, f'Unsuported command')
                 continue

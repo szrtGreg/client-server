@@ -2,9 +2,6 @@ import socket
 import json
 from configparser import ConfigParser
 
-from requests import NullHandler
-
-
 from server_management import ServerManagement
 from data_base import DataBase
 
@@ -15,7 +12,6 @@ params = parser['postgresql']
 
 ## CREATE DB ###
 data_base = DataBase(params['host'], params['database'], params['user'], params['password'], params['port'])
-
 
 server_management = ServerManagement()
 

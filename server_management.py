@@ -47,7 +47,7 @@ class ServerManagement():
             self.send_msg(conn, f'{authenticated_user.username} - Login sucessful')
             return authenticated_user
         
-        self.send_msg(conn, f'{credentials[0]} NOT exists or password not match! Try again.')
+        self.send_msg(conn, f'{credentials[0]} does not exists or password do not match! Try again.')
         return None
 
 

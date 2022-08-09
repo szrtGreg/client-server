@@ -1,0 +1,1 @@
+{"greg1": {"role": "admin", "pass": "ala", "messages": [1, 2, 3, "Wiadomosc", "wiado"]}, "greg2": {"role": "admin", "pass": "ala2", "messages": []}, "greg3": {"role": "admin", "pass": "ala2", "messages": [1]}, "a2": {"role": "user", "pass": "a2", "messages": []}}

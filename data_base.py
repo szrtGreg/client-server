@@ -16,14 +16,6 @@ class DataBase:
             database=self.database,
         )
 
-    def show_users(self):
-        with self.connection as connection:
-            cursor = connection.cursor()
-            cursor.execute("""SELECT * FROM users ;""")
-            records = cursor.fetchall()
-            print(cursor.statusmessage)
-            return records
-
 
     def get_user(self, username):
         with self.connection as connection:
@@ -41,7 +33,7 @@ class DataBase:
             return record[3]
         return None
     
-    def add_user(self, user_data):
+    def create_new_user(self, user_data):
         if self.get_user(user_data['username']) is None:
             with self.connection as connection:
                 cursor = connection.cursor()
@@ -51,10 +43,29 @@ class DataBase:
                 return True
 
         return None
+    
+    def delete_user(self, username):
+        if self.get_user(username) is not None:
+            with self.connection as connection:
+                cursor = connection.cursor()
+                query = "DELETE FROM users WHERE name = %s"
+                cursor.execute(query, (username,))
+                print(cursor.statusmessage)
+                return True       
+        return None
 
 
 
-
+    def send_message(self, receiver, sender, text):
+        if self.get_user(receiver) is not None:
+            with self.connection as connection:
+                cursor = connection.cursor()
+                query = """INSERT INTO messages (sender, receiver, text) VALUES(%s, %s, %s);"""
+                cursor.execute(query, (sender, receiver, text[:255].strip()))
+                print(cursor.statusmessage)
+                return 'OK'
+        return None
+            
 
 
 

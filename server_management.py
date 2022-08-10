@@ -1,6 +1,6 @@
 from datetime import datetime
 from turtle import right
-from users import User
+from user import User
 
 class ServerManagement():
 

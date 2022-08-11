@@ -63,7 +63,7 @@ class ServerManagement():
         return None
 
 
-### HANDLERS
+    ### HANDLERS
 
     def send_message(self, conn, data_base, authenticated_user):
         self.send_msg(conn, "username:msg")
@@ -77,28 +77,31 @@ class ServerManagement():
 
 
     def create_new_user(self, conn, data_base, authenticated_user):
-        self.send_msg(conn, "username:password:rights")
-        recv = self.recv_msg(conn)
-        user = self.create_user_object(recv)
+        if authenticated_user.role == 'ADMIN':
+            self.send_msg(conn, "username:password:rights")
+            recv = self.recv_msg(conn)
+            user = self.create_user_object(recv)
 
-        if user:
-            if data_base.create_new_user(user.get_user_data()):
-                 return user.username, user.password
-            return 'Error', f'{user.username} already exists'
-        else:
-            return 'Error', 'Invalid data'
+            if user:
+                if data_base.create_new_user(user.get_user_data()):
+                    return user.username, user.password
+                return 'Error', f'{user.username} already exists'
+            else:
+                return 'Error', 'Invalid data'
+        return 'Error', 'You are not allowed'
+
 
     def delete_user(self, conn, data_base, authenticated_user):
-        self.send_msg(conn, "username")
-        recv = self.recv_msg(conn)
-        user = data_base.delete_user(recv)
+        if authenticated_user.role == 'ADMIN':
+            self.send_msg(conn, "username")
+            recv = self.recv_msg(conn)
+            user = data_base.delete_user(recv)
 
-        if user:
-            return recv, 'DELETED'
-        else:
-            return recv, 'NOT FOUND'
-        
-
+            if user:
+                return recv, 'DELETED'
+            else:
+                return recv, 'NOT FOUND'
+        return 'Error', 'You are not allowed'
 
 
     def show_server_uptime(self, *args):

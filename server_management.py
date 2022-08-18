@@ -21,7 +21,8 @@ class ServerManagement():
             'help' :    'show all commands',
             'uptime':   'show server uptime',
             'send':     'send message to user',
-            'delete':   'delete user'
+            'delete':   'delete user',
+            'create':   'crate a new user'
 
         }
 

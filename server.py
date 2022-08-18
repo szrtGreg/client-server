@@ -30,7 +30,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
                 authenticated_user = server_management.login_to_account(data_base, conn)
             except IndexError:
-                server_management.send_msg(conn, f'Wrong login or password')
+                server_management.send_msg(conn, f'Wrong login or password use pattern: username:password')
                 continue
             if authenticated_user:
                 break 

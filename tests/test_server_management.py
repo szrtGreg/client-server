@@ -1,7 +1,5 @@
 import pytest
 from unittest.mock import Mock
-import sys
-sys.path.append(r"c:\newWork\client-server")
 
 from server_management import ServerManagement
 from data_base import DataBase
